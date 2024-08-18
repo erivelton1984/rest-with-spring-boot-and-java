@@ -1,6 +1,6 @@
 package br.com.erivelton.controller;
 
-import br.com.erivelton.model.Person;
+import br.com.erivelton.data.vo.v1.PersonVO;
 import br.com.erivelton.service.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,25 +17,25 @@ public class PersonController {
     private PersonServices personServices;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Person> findAll (){
+    public List<PersonVO> findAll (){
         return personServices.findAll();
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person findById (
+    public PersonVO findById (
             @PathVariable (value = "id") Long id) throws Exception{
         return personServices.findById(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person create (@RequestBody Person person) throws Exception{
+    public PersonVO create (@RequestBody PersonVO person) throws Exception{
         return personServices.create(person);
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person update (@RequestBody Person person) throws Exception{
+    public PersonVO update (@RequestBody PersonVO person) throws Exception{
         return personServices.update(person);
     }
 
