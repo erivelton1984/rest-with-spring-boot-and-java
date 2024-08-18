@@ -1,6 +1,7 @@
 package br.com.erivelton.controller;
 
 import br.com.erivelton.data.vo.v1.PersonVO;
+import br.com.erivelton.data.vo.v2.PersonVO2;
 import br.com.erivelton.service.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,6 +31,12 @@ public class PersonController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public PersonVO create (@RequestBody PersonVO person) throws Exception{
+        return personServices.create(person);
+    }
+
+    @PostMapping(value = "/v2", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public PersonVO2 createV2 (@RequestBody PersonVO2 person) throws Exception{
         return personServices.create(person);
     }
 

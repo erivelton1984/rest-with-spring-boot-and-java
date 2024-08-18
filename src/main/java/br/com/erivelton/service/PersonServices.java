@@ -1,6 +1,7 @@
 package br.com.erivelton.service;
 
 import br.com.erivelton.data.vo.v1.PersonVO;
+import br.com.erivelton.data.vo.v2.PersonVO2;
 import br.com.erivelton.exceptions.ResourceNotFoundException;
 import br.com.erivelton.mapper.DozerMapper;
 import br.com.erivelton.model.Person;
@@ -39,6 +40,14 @@ public class PersonServices {
         var entity = DozerMapper.parseObject(person, Person.class);
         var entityVO = DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
         return entityVO;
+    }
+
+    public PersonVO2 create(PersonVO2 person){
+
+        logger.info("Creating one person with V2");
+        var entity = DozerMapper.parseObject(person, Person.class);
+        var entityVO2 = DozerMapper.parseObject(personRepository.save(entity), PersonVO2.class);
+        return entityVO2;
     }
 
     public PersonVO update(PersonVO person){
