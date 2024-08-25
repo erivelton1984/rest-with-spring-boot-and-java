@@ -38,7 +38,7 @@ public class LutaService {
                 Lutador lutador2 = lutadores.get(j);
 
                 if (Math.abs(lutador1.getPeso() - lutador2.getPeso()) <= 10 &&
-                        Math.abs(lutador1.getIdade() - lutador2.getIdade()) <= 5) {
+                        Math.abs(lutador1.getKeyade() - lutador2.getKeyade()) <= 5) {
                     List<Lutador> chave = new ArrayList<>();
                     chave.add(lutador1);
                     chave.add(lutador2);
@@ -57,7 +57,7 @@ public class LutaService {
                 Lutador lutador1 = lutadores.get(i);
                 Lutador lutador2 = lutadores.get(j);
                 if (Math.abs(lutador1.getPeso() - lutador2.getPeso()) <= 5 &&
-                    Math.abs(lutador1.getIdade() - lutador2.getIdade()) <= 5){
+                    Math.abs(lutador1.getKeyade() - lutador2.getKeyade()) <= 5){
                     List<Lutador> chave = new ArrayList<>();
                     chave.add(lutador1);
                     chave.add(lutador2);

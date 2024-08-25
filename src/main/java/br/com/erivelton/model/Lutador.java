@@ -41,7 +41,7 @@ public class Lutador {
         this.faixa = faixa;
     }
 
-    public int getIdade() {
+    public int getKeyade() {
         return idade;
     }
 
