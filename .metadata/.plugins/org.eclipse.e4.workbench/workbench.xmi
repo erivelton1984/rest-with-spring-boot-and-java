@@ -2063,7 +2063,7 @@
   <commands xmi:id="_A9wPvl1dEe-wovjGibe_gQ" elementId="org.eclipse.ui.navigate.previousSubTab" commandName="Previous Sub-Tab" description="Switch to the previous sub-tab" category="_A9lQml1dEe-wovjGibe_gQ"/>
   <commands xmi:id="_A9wPv11dEe-wovjGibe_gQ" elementId="org.eclipse.jdt.ui.edit.text.java.generate.hashcode.equals" commandName="Generate hashCode() and equals()" description="Generates hashCode() and equals() methods for the type" category="_A9lQsF1dEe-wovjGibe_gQ"/>
   <commands xmi:id="_A9wPwF1dEe-wovjGibe_gQ" elementId="org.eclipse.ui.navigate.showIn" commandName="Show In" category="_A9lQml1dEe-wovjGibe_gQ">
-    <parameters xmi:id="_A9wPwV1dEe-wovjGibe_gQ" elementId="org.eclipse.ui.navigate.showIn.targetId" name="Show In Target Id" optional="false"/>
+    <parameters xmi:id="_A9wPwV1dEe-wovjGibe_gQ" elementId="org.eclipse.ui.navigate.showIn.targetKey" name="Show In Target Id" optional="false"/>
   </commands>
   <commands xmi:id="_A9wPwl1dEe-wovjGibe_gQ" elementId="org.eclipse.egit.ui.RepositoriesViewRemoveRemote" commandName="Delete Remote" category="_A9lQrV1dEe-wovjGibe_gQ"/>
   <commands xmi:id="_A9wPw11dEe-wovjGibe_gQ" elementId="org.eclipse.linuxtools.docker.ui.commands.showInWebBrowser" commandName="Web Browser" description="Show in Web Browser" category="_A9lQs11dEe-wovjGibe_gQ"/>

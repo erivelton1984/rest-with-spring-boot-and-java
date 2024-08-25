@@ -41,7 +41,7 @@ public class ExcelService {
                 row.createCell(1).setCellValue(lutador1.getAcademia());
                 row.createCell(2).setCellValue(lutador1.getPeso());
                 row.createCell(3).setCellValue(lutador1.getFaixa());
-                row.createCell(4).setCellValue(lutador1.getIdade());
+                row.createCell(4).setCellValue(lutador1.getKeyade());
                 row.createCell(5).setCellValue(lutador1.getGenero());
 
                 if (lutador2 != null) {
@@ -49,7 +49,7 @@ public class ExcelService {
                     row.createCell(7).setCellValue(lutador2.getAcademia());
                     row.createCell(8).setCellValue(lutador2.getPeso());
                     row.createCell(9).setCellValue(lutador2.getFaixa());
-                    row.createCell(10).setCellValue(lutador2.getIdade());
+                    row.createCell(10).setCellValue(lutador2.getKeyade());
                     row.createCell(11).setCellValue(lutador2.getGenero());
                 }
             }

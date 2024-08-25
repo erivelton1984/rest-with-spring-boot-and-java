@@ -82,6 +82,18 @@
 			<artifactId>jackson-dataformat-xml</artifactId>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.springframework.hateoas/spring-hateoas -->
+		<dependency>
+			<groupId>org.springframework.hateoas</groupId>
+			<artifactId>spring-hateoas</artifactId>
+			</dependency>
+
+		<dependency>
+			<groupId>com.github.dozermapper</groupId>
+			<artifactId>dozer-core</artifactId>
+			<version>${dozer.version}</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -100,13 +112,6 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-database-postgresql</artifactId>
 		</dependency>-->
-
-		<dependency>
-			<groupId>com.github.dozermapper</groupId>
-			<artifactId>dozer-core</artifactId>
-			<version>${dozer.version}</version>
-		</dependency>
-
 
 	</dependencies>
 
