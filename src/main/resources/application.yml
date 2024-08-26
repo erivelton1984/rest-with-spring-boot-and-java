@@ -12,3 +12,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
+spring-doc:
+  pathToMatch: /api/**v1/**
+  swagger-ui:
+    use-root-path: true
