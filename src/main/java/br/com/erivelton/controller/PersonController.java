@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//@CrossOrigin
 @RestController
 @RequestMapping("/api/person/v1")
 @Tag(name="People", description = "Endpoints for Managing People")
@@ -46,6 +47,7 @@ public class PersonController {
         return personServices.findAll();
     }
 
+    //@CrossOrigin(origins = "http://localhost:8080")
     @GetMapping(value = "/{id}",
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     public PersonVO findById (
@@ -53,6 +55,7 @@ public class PersonController {
         return personServices.findById(id);
     }
 
+    @CrossOrigin(origins = {"http://localhost:8080", "https://erivelton.com.br"})
     @PostMapping(
             consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
