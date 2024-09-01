@@ -3,17 +3,17 @@ package br.com.erivelton.exceptions;
 import java.io.Serializable;
 import java.util.Date;
 
-public class ExceptionsResponse implements Serializable {
+public class ExceptionResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Date timestamp;
-    private String mesage;
+    private String message;
     private String details;
 
-    public ExceptionsResponse(Date timestamp, String mesage, String details) {
+    public ExceptionResponse(Date timestamp, String message, String details) {
         this.timestamp = timestamp;
-        this.mesage = mesage;
+        this.message = message;
         this.details = details;
     }
 
@@ -21,8 +21,8 @@ public class ExceptionsResponse implements Serializable {
         return timestamp;
     }
 
-    public String getMesage() {
-        return mesage;
+    public String getMessage() {
+        return message;
     }
 
     public String getDetails() {
