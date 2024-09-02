@@ -9,6 +9,8 @@ import br.com.erivelton.model.Person;
 import br.com.erivelton.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -77,6 +79,20 @@ public class PersonServices {
 
         var entityVO = DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
         entityVO.add(linkTo(methodOn(PersonController.class).findById(entityVO.getKey())).withSelfRel());
+        return entityVO;
+    }
+
+    @Transactional
+    public PersonVO disablePerson(Long id) throws Exception {
+
+        logger.info("Find one person");
+
+        personRepository.disablePerson(id);
+
+        var entity =  personRepository.findById(id)
+                .orElseThrow(()->new ResourceNotFoundException("No records found this id!"));
+        var entityVO = DozerMapper.parseObject(entity, PersonVO.class);
+        entityVO.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
         return entityVO;
     }
 
