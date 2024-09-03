@@ -3,104 +3,139 @@ package br.com.erivelton.service;
 import br.com.erivelton.controller.PersonController;
 import br.com.erivelton.data.vo.v1.PersonVO;
 import br.com.erivelton.data.vo.v2.PersonVO2;
+import br.com.erivelton.exceptions.RequiredObjectIsNullException;
 import br.com.erivelton.exceptions.ResourceNotFoundException;
 import br.com.erivelton.mapper.DozerMapper;
 import br.com.erivelton.model.Person;
 import br.com.erivelton.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 @Service
 public class PersonServices {
 
-    private Logger logger = Logger.getLogger(PersonVO.class.getName());
+    private Logger logger = Logger.getLogger(PersonServices.class.getName());
 
     @Autowired
     PersonRepository personRepository;
 
-    public List<PersonVO> findAll(){
+    @Autowired
+    PagedResourcesAssembler<PersonVO> assembler;
+
+    public PagedModel<EntityModel<PersonVO>> findAll(Pageable pageable) {
 
         logger.info("Finding all people!");
-        var persons = DozerMapper.parseListObjects(personRepository.findAll(), PersonVO.class);
-        persons.stream().forEach(p -> {
-            try {
-                p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-        return persons;
+
+        var personPage = personRepository.findAll(pageable);
+
+        var personVosPage = personPage.map(p -> DozerMapper.parseObject(p, PersonVO.class));
+        personVosPage.map(
+                p -> p.add(
+                        linkTo(methodOn(PersonController.class)
+                                .findById(p.getKey())).withSelfRel()));
+
+        Link link = linkTo(
+                methodOn(PersonController.class)
+                        .findAll(pageable.getPageNumber(),
+                                pageable.getPageSize(),
+                                "asc")).withSelfRel();
+
+        return assembler.toModel(personVosPage, link);
     }
 
-    public PersonVO findById(Long id) throws Exception {
+    public PagedModel<EntityModel<PersonVO>> findPersonByName(String firstname, Pageable pageable) {
 
-        logger.info("Find one person");
-        var entity =  personRepository.findById(id)
-                .orElseThrow(()->new ResourceNotFoundException("No records found this id!"));
-        var entityVO = DozerMapper.parseObject(entity, PersonVO.class);
-        entityVO.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
-        return entityVO;
+        logger.info("Finding all people!");
+
+        var personPage = personRepository.findPersonsByName(firstname, pageable);
+
+        var personVosPage = personPage.map(p -> DozerMapper.parseObject(p, PersonVO.class));
+        personVosPage.map(
+                p -> p.add(
+                        linkTo(methodOn(PersonController.class)
+                                .findById(p.getKey())).withSelfRel()));
+
+        Link link = linkTo(
+                methodOn(PersonController.class)
+                        .findAll(pageable.getPageNumber(),
+                                pageable.getPageSize(),
+                                "asc")).withSelfRel();
+
+        return assembler.toModel(personVosPage, link);
     }
 
-    public PersonVO create(PersonVO person) throws Exception {
+    public PersonVO findById(Long id) {
 
-        logger.info("Creating one person");
+        logger.info("Finding one person!");
+
+        var entity = personRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+        var vo = DozerMapper.parseObject(entity, PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+        return vo;
+    }
+
+    public PersonVO create(PersonVO person) {
+
+        if (person == null) throw new RequiredObjectIsNullException();
+
+        logger.info("Creating one person!");
         var entity = DozerMapper.parseObject(person, Person.class);
-        var entityVO = DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
-        entityVO.add(linkTo(methodOn(PersonController.class).findById(entityVO.getKey())).withSelfRel());
-        return entityVO;
+        var vo =  DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
+        return vo;
     }
 
-    public PersonVO2 create(PersonVO2 person) throws Exception {
+    public PersonVO update(PersonVO person) {
 
-        logger.info("Creating one person with V2");
-        var entity = DozerMapper.parseObject(person, Person.class);
-        var entityVO2 = DozerMapper.parseObject(personRepository.save(entity), PersonVO2.class);
-        //entityVO2.add(linkTo(methodOn(PersonController.class).findById(entityVO2.getKey())).withSelfRel());
-        return entityVO2;
-    }
+        if (person == null) throw new RequiredObjectIsNullException();
 
-    public PersonVO update(PersonVO person) throws Exception {
+        logger.info("Updating one person!");
 
-        logger.info("Updating one person");
         var entity = personRepository.findById(person.getKey())
-                .orElseThrow(()->new ResourceNotFoundException("No records found this id!"));
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+
         entity.setFirstName(person.getFirstName());
         entity.setLastName(person.getLastName());
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        var entityVO = DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
-        entityVO.add(linkTo(methodOn(PersonController.class).findById(entityVO.getKey())).withSelfRel());
-        return entityVO;
+        var vo =  DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
+        return vo;
     }
 
     @Transactional
-    public PersonVO disablePerson(Long id) throws Exception {
+    public PersonVO disablePerson(Long id) {
 
-        logger.info("Find one person");
+        logger.info("Disabling one person!");
 
         personRepository.disablePerson(id);
 
-        var entity =  personRepository.findById(id)
-                .orElseThrow(()->new ResourceNotFoundException("No records found this id!"));
-        var entityVO = DozerMapper.parseObject(entity, PersonVO.class);
-        entityVO.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
-        return entityVO;
+        var entity = personRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+        var vo = DozerMapper.parseObject(entity, PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+        return vo;
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
 
-        logger.info("Deleting one person");
+        logger.info("Deleting one person!");
+
         var entity = personRepository.findById(id)
-                .orElseThrow(()->new ResourceNotFoundException("No records found this id!"));
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
         personRepository.delete(entity);
     }
 }
